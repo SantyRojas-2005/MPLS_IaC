@@ -1,0 +1,29 @@
+---
+- name: "FASE 6: DESPLIEGUE DE NUEVA VRF CLIENTE (DIEGO)"
+  hosts: pe_routers # O el nombre del grupo donde estén los PE en inventario.ini
+  gather_facts: no
+  tasks:
+    - name: 1. Crear definición de la VRF_DIEGO y sus Route Targets
+      cisco.ios.ios_config:
+        lines:
+          - rd 15:2
+          - route-target export 15:2
+          - route-target import 15:2
+        parents: ip vrf VRF_DIEGO
+
+    - name: 2. Asignar VRF_DIEGO a la interfaz del cliente (Ej: Ethernet0/2) e inyectar IP
+      cisco.ios.ios_config:
+        lines:
+          - ip vrf forwarding VRF_DIEGO
+          - ip address 192.168.50.1 255.255.255.0
+          - no shutdown
+        parents: interface Ethernet0/2
+
+    - name: 3. Configurar adyacencia eBGP dentro de la familia de direcciones de la VRF
+      cisco.ios.ios_config:
+        lines:
+          - neighbor 192.168.50.2 remote-as 65002
+          - neighbor 192.168.50.2 activate
+        parents: 
+          - router bgp 15
+          - address-family ipv4 vrf VRF_DIEGO
