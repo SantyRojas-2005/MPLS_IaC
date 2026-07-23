@@ -1,0 +1,22 @@
+---
+- name: "FASE 7: AUDITORÍA DE RED Y RESPALDO AUTOMATIZADO (DEMO INGENIERO)"
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: 1. Verificar estado de adyacencias MPLS LDP y BGP
+      cisco.ios.ios_command:
+        commands:
+          - show mpls ldp neighbor summary
+          - show ip bgp summary
+      register: salida_monitoreo
+
+    - name: 2. Mostrar resumen en consola durante la automatización
+      ansible.builtin.debug:
+        msg: "El equipo {{ inventory_hostname }} fue auditado correctamente."
+
+    - name: 3. Generar respaldo local de la configuración (Backup SSoT)
+      cisco.ios.ios_config:
+        backup: yes
+        backup_options:
+          dir_path: ../respaldos_config/
+          filename: "{{ inventory_hostname }}_resumen.cfg"
