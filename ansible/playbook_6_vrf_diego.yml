@@ -11,7 +11,7 @@
           - route-target import 15:2
         parents: ip vrf VRF_DIEGO
 
-    - name: 2. Asignar VRF_DIEGO a la interfaz del cliente (Ej: Ethernet0/2) e inyectar IP
+    - name: "2. Asignar VRF_DIEGO a la interfaz del cliente (Ej: Ethernet0/2) e inyectar IP"
       cisco.ios.ios_config:
         lines:
           - ip vrf forwarding VRF_DIEGO
