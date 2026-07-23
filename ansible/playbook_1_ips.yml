@@ -1,5 +1,5 @@
 ---
-- name: Fase 1 - Direccionamiento IP Base
+- name: Fase 1 - CONFIGURACIÓN Y AUDITORÍA DE ENLACES CORE Y LOOPBACKS (VERSIÓN 2)
   hosts: routers
   gather_facts: no
 
