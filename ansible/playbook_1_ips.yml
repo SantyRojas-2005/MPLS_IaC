@@ -1,6 +1,5 @@
 ---
 - name: Fase 1 - DIEGO PINTO
-  hosts: routers
   gather_facts: no
 
   vars:
